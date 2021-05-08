@@ -3,6 +3,15 @@ import './App.css';
 import { CharComponent } from './component/CharComponent';
 import { Validation } from './component/validation';
 
+
+{/* <ol>
+          <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).-- Done</li>
+          <li>Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.--Done</li>
+          <li>When you click a CharComponent, it should be removed from the entered text.--Done</li>
+        </ol> */}
+{/* <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p> */ }
+
+
 class App extends Component {
   state = {
     text: '',
@@ -20,6 +29,22 @@ class App extends Component {
 
     this.setState(newState);
 
+  }
+
+  deleteLetter = (index) => {
+    let charList = this.state.text.split("");
+    console.log(charList);
+
+    charList.splice(index, 1);
+
+    let newText = charList.join("");
+    let newLength = newText.length;
+    let newState = Object.assign(this.state);
+
+    newState.text = newText;
+    newState.length = newLength;
+
+    this.setState(newState);
   }
 
   render() {
@@ -48,8 +73,8 @@ class App extends Component {
         <Validation strLength={this.state.length} />
         {
 
-          this.state.text.split("").map(letter =>
-            <CharComponent text={letter} />
+          this.state.text.split("").map((letter, index) =>
+            <CharComponent text={letter} key={index} clicked={(index) => this.deleteLetter(index)} />
           )
         }
 
